@@ -1,0 +1,21 @@
+import camion.*
+import cosas.*
+describe "camion tests" {
+
+    test "se carga un objeto en el camion" {
+
+    }
+
+    test "se carga un objeto, se supera el limite de peso y falla" {
+
+    }
+
+
+    test "se descarga un objeto existente en el camion" {
+
+    }
+
+    test "se ordena descargar un objeto que no esta en el camion y da el fallo correspondiente" {
+
+    }
+}
