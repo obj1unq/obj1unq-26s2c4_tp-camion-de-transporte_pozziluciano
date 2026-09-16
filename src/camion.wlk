@@ -48,6 +48,21 @@ object camion {
 		return if (not cosas.contains(unaCosa)) self.error("no existe ese objeto en el camion")
 	}
 
+	method tieneAlgoQuePesaEntre(min, max) {
+		return cosas.any {cosa => min > cosa.peso() < max}
+	}
+
+	method cosaMasPesada() {
+		return cosas.max {cosa => cosa.peso()}
+	}
+
+	method pesos() {
+		return cosas.forEach{cosa => cosa.peso()}
+	}
+
+	method totalBultos() {
+		 return cosas.sum {cosa => cosa.cantBultos()}
+	}
 }
 
 
