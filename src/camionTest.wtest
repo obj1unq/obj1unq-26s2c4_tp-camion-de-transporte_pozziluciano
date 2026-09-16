@@ -31,6 +31,8 @@ describe "carga, descarga y peso" {
     test "se carga el camion y no se marca como excedido de peso" {
          assert.notThat(camion.excedidoDePeso())
     }
+
+    
 }
 
 describe "niveles de peligrosidad" {
