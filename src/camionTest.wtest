@@ -1,21 +1,87 @@
 import camion.*
 import cosas.*
-describe "camion tests" {
+describe "carga, descarga y peso" {
 
+    method initialize() {
+        camion.cargar(bumblebee)
+    }
     test "se carga un objeto en el camion" {
-
+        assert.equals([bumblebee], camion.carga())
     }
 
-    test "se carga un objeto, se supera el limite de peso y falla" {
-
+    test "se cargan objetos, se supera el limite de peso y falla" {
+        assert.throwsException({camion.cargar(bumblebee)})
+        assert.equals(1800, camion.pesoTotal())
     }
 
 
     test "se descarga un objeto existente en el camion" {
-
+        camion.descargar(bumblebee)
+        assert.equals([], camion.carga())
     }
 
     test "se ordena descargar un objeto que no esta en el camion y da el fallo correspondiente" {
-
+        assert.throwsException({camion.descargar(knightRider)})
     }
+
+    test "un camion que lleva un bumblebee pesa 1800kg en total" {
+        assert.equals(1800, camion.pesoTotal())
+    }
+
+    test "se carga el camion y no se marca como excedido de peso" {
+         assert.notThat(camion.excedidoDePeso())
+    }
+}
+
+describe "niveles de peligrosidad" {
+
+method initialize() {
+    camion.cargar(bateriaAntiaerea) //0
+    camion.cargar(bumblebee)//15
+    camion.cargar(residuosRadioactivos)//200
+}
+    test "se devuelven los objetos mas peligrosos que lo indicado" {
+        assert.equals([residuosRadioactivos], camion.objetosPeligrosos(100))
+    }
+
+    test "se devuelven los objetos mas peligrosos que el elegido del mismo camion" {
+        assert.equals([residuosRadioactivos], camion.objetosMasPeligrososQue(bumblebee))
+    }
+
+    test "el camion no puede circular en ruta porque no todos sus elementos son tan seguros" {
+        assert.notThat(camion.puedeCircularEnRuta(10))
+    }
+}
+
+describe "ladrllos, peligrosidad y peso" {
+    method initialize() {
+        paqueteDeLadrillos.agregarLadrillos(950)
+    }
+
+    test "el peso del paquete es de 2000kg y su peligrosidad es de 40" {
+        assert.equals(2000, paqueteDeLadrillos.peso())
+        assert.equals(40, paqueteDeLadrillos.nivelPeligrosidad())
+    }
+
+    test "se agregan 70 larillos y el peso del paquete aumenta a 2250kg y su peligrosidad a 29" {
+        paqueteDeLadrillos.agregarLadrillos(70)
+        assert.equals(2250, paqueteDeLadrillos.peso())
+        assert.equals(29, paqueteDeLadrillos.nivelPeligrosidad())
+    }
+
+
+
+}
+
+describe "contenedor portuario, peligrosidad y peso" {
+    method initialize() {
+        contenedorPortuario.guardarAlgo(knightRider)
+        contenedorPortuario.guardarAlgo(bumblebee)
+    }
+
+    test "el peso total del contenedor es de 1400kg y su peligrosidad es 15" {
+        assert.equals(1400, contenedorPortuario.peso())
+        assert.equals(15, contenedorPortuario.nivelPeligrosidad())
+    }
+
 }
