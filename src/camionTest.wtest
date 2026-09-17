@@ -28,11 +28,12 @@ describe "carga, descarga y peso" {
         assert.equals(1800, camion.pesoTotal())
     }
 
-    test "se carga el camion y no se marca como excedido de peso" {
+    test "se carga el camion con 800kg y no se marca como excedido de peso" {
          assert.notThat(camion.excedidoDePeso())
     }
 
     
+
 }
 
 describe "niveles de peligrosidad" {
@@ -47,7 +48,7 @@ method initialize() {
     }
 
     test "se devuelven los objetos mas peligrosos que el elegido del mismo camion" {
-        assert.equals([residuosRadioactivos], camion.objetosMasPeligrososQue(bumblebee))
+        assert.equals([bateriaAntiaerea, residuosRadioactivos], camion.objetosMasPeligrososQue(bumblebee))
     }
 
     test "el camion no puede circular en ruta porque no todos sus elementos son tan seguros" {
@@ -86,4 +87,40 @@ describe "contenedor portuario, peligrosidad y peso" {
         assert.equals(15, contenedorPortuario.nivelPeligrosidad())
     }
 
+}
+
+
+describe "agregando cosas al camion tests" {
+method initialize() {
+    camion.cargar(bateriaAntiaerea) //300
+    camion.cargar(bumblebee)//800
+    camion.cargar(residuosRadioactivos)//35
+}
+test "se devuelve la lista de pesos, en este caso con un 800" {
+        assert.equals([300, 800, 35], camion.pesos())
+    }
+
+    test "se devuelve a bumblebee por ser la cosa mas pesada del camion" {
+        assert.equals(bumblebee, camion.cosaMasPesada())
+    }
+
+    test "en total se suman 5 bultos en el camion" {
+        assert.equals(5, camion.totalBultos())
+    }
+
+    test "indica true al preguntar si hay un elemento que pesa entre 20kg y 100kg" {
+        assert.that(camion.tieneAlgoQuePesaEntre(15, 100))
+    }
+
+    
+}
+
+describe "modificaciones al cargar las cosas" {
+    test "se carga una bateriaAntiaerea al camion y se carga con misiles, aumentando peligrosidad y peso" {
+        assert.equals(200, bateriaAntiaerea.peso())
+        assert.equals(0, bateriaAntiaerea.nivelPeligrosidad())
+        camion.cargar(bateriaAntiaerea)
+        assert.equals(300, bateriaAntiaerea.peso())
+        assert.equals(100, bateriaAntiaerea.nivelPeligrosidad())
+    }
 }

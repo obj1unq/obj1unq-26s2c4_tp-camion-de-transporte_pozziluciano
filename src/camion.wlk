@@ -5,6 +5,7 @@ object camion {
 	
 	method cargar(unaCosa) {
 		self.validarQueSePuedeCargar(unaCosa)
+		unaCosa.serCargada()
 		cosas.add(unaCosa)
 	}
 
@@ -49,7 +50,7 @@ object camion {
 	}
 
 	method tieneAlgoQuePesaEntre(min, max) {
-		return cosas.any {cosa => min > cosa.peso() < max}
+		return cosas.any {cosa => (min < cosa.peso()) && (cosa.peso() < max)}
 	}
 
 	method cosaMasPesada() {
@@ -57,8 +58,9 @@ object camion {
 	}
 
 	method pesos() {
-		return cosas.forEach{cosa => cosa.peso()}
+		return cosas.map{cosa => cosa.peso()}
 	}
+
 
 	method totalBultos() {
 		 return cosas.sum {cosa => cosa.cantBultos()}
